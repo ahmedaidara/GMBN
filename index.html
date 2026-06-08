@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Admin Dashboard - Medina Baye Niass</title>
+    <title>Medina Baye Niass - Garage Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -15,281 +15,574 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #121214;
+            background: #0B0F19;
             color: #FFFFFF;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Admin Layout */
-        .admin-container {
-            display: flex;
-            min-height: 100vh;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background: #1A1A1E;
-            border-right: 1px solid #2A2A2E;
-            padding: 2rem 1rem;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            transition: all 0.3s;
+        ::-webkit-scrollbar-track {
+            background: #1A1F2E;
         }
 
-        .sidebar-logo {
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
+        }
+
+        /* Typography */
+        h1, h2, h3, .logo {
             font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
+        }
+
+        /* Gradient Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(11, 15, 25, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(11, 15, 25, 0.98);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 2rem;
-            text-align: center;
+            letter-spacing: -0.02em;
         }
 
-        .sidebar-nav {
+        .nav-links {
+            display: flex;
+            gap: 2rem;
             list-style: none;
         }
 
-        .sidebar-nav li {
-            margin-bottom: 0.5rem;
+        .nav-links a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
         }
 
-        .sidebar-nav a {
+        .nav-links a:hover {
+            color: #D4AF37;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            color: #A1A1AA;
-            text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .sidebar-nav a:hover, .sidebar-nav a.active {
-            background: #2A2A2E;
-            color: #D4AF37;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 2rem;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: #1A1A1E;
-            border-radius: 20px;
-            padding: 1.5rem;
-            border: 1px solid #2A2A2E;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: #D4AF37;
-        }
-
-        .stat-title {
-            color: #A1A1AA;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #D4AF37;
-        }
-
-        /* Tables */
-        .data-table {
-            width: 100%;
-            background: #1A1A1E;
-            border-radius: 20px;
+            position: relative;
             overflow: hidden;
-            border: 1px solid #2A2A2E;
+            padding: 100px 0 50px;
         }
 
-        .data-table th, .data-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #2A2A2E;
+        .hero-content {
+            flex: 1;
+            z-index: 2;
         }
 
-        .data-table th {
-            background: #222226;
-            color: #D4AF37;
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
             font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .data-table tr:hover {
-            background: #222226;
+        .btn-primary {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
-        /* Forms */
-        .admin-form {
-            background: #1A1A1E;
-            border-radius: 20px;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid #D4AF37;
+            color: #D4AF37;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: #D4AF37;
+            color: #0B0F19;
+            transform: translateY(-2px);
+        }
+
+        .counter-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
             padding: 2rem;
-            border: 1px solid #2A2A2E;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            animation: float 3s ease-in-out infinite;
         }
 
-        .form-group {
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .counter-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #D4AF37;
+            font-family: 'Syne', sans-serif;
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 4rem 0;
+        }
+
+        .bento-card {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .bento-card:hover::before {
+            opacity: 1;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .bento-icon {
+            font-size: 2.5rem;
+            color: #D4AF37;
             margin-bottom: 1.5rem;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #A1A1AA;
+        /* Vehicle Cards */
+        .vehicles-grid, .services-grid, .location-grid, .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
         }
 
-        .form-group input, .form-group textarea, .form-group select {
+        .vehicle-card, .service-card, .location-card, .product-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .vehicle-card:hover, .service-card:hover, .location-card:hover, .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #D4AF37;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .vehicle-image, .service-image, .location-image, .product-image {
             width: 100%;
-            padding: 0.75rem;
-            background: #222226;
-            border: 1px solid #2A2A2E;
-            border-radius: 8px;
-            color: white;
-            font-family: 'Inter', sans-serif;
+            height: 220px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #1A1F2E 0%, #0B0F19 100%);
         }
 
-        /* Upload Zone */
-        .upload-zone {
-            border: 2px dashed #2A2A2E;
-            border-radius: 12px;
+        .vehicle-info, .service-info, .location-info, .product-info {
+            padding: 1.5rem;
+        }
+
+        .vehicle-price {
+            font-size: 1.8rem;
+            color: #D4AF37;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .stock-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .in-stock {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+            border: 1px solid #10B981;
+        }
+
+        .out-stock {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            border: 1px solid #EF4444;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #0B0F19;
+            border-radius: 32px;
+            max-width: 500px;
+            width: 90%;
             padding: 2rem;
-            text-align: center;
+            border: 1px solid #D4AF37;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, #1A1F2E 25%, #2A2F3E 50%, #1A1F2E 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            color: white;
             cursor: pointer;
             transition: all 0.3s;
         }
 
-        .upload-zone:hover {
+        .filter-btn.active, .filter-btn:hover {
+            background: #D4AF37;
+            color: #0B0F19;
             border-color: #D4AF37;
-            background: rgba(212, 175, 55, 0.05);
         }
 
-        .image-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .preview-img {
+        /* Search Bar */
+        .search-bar {
             width: 100%;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-            position: relative;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 2rem;
         }
 
-        /* Login Screen */
-        .login-container {
+        /* Reviews */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .rating {
+            color: #D4AF37;
+            margin: 0.5rem 0;
+        }
+
+        /* Floating WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #25D366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0B0F19 0%, #121214 100%);
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s;
         }
 
-        .login-box {
-            background: #1A1A1E;
-            border-radius: 32px;
-            padding: 3rem;
-            width: 400px;
-            border: 1px solid #D4AF37;
-        }
-
-        /* Low Stock Alert */
-        .low-stock {
-            background: rgba(245, 158, 11, 0.1);
-            border-left: 3px solid #F59E0B;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                z-index: 1000;
+            .menu-toggle {
+                display: block;
             }
-            
-            .sidebar.active {
-                transform: translateX(0);
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(11, 15, 25, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                text-align: center;
             }
-            
-            .main-content {
-                margin-left: 0;
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .bento-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+        /* Before After Slider */
+        .before-after {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 20px;
+            cursor: ew-resize;
         }
 
-        .btn-primary {
+        .before-img, .after-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
             background: #D4AF37;
-            color: #121214;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: ew-resize;
         }
 
-        .btn-primary:hover {
-            background: #FFD700;
-            transform: translateY(-2px);
+        .section-title {
+            font-size: 2.5rem;
+            margin: 3rem 0 2rem;
+            text-align: center;
         }
 
-        .btn-danger {
-            background: #EF4444;
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        footer {
+            background: #0B0F19;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 3rem 0;
+            margin-top: 4rem;
         }
     </style>
 </head>
 <body>
-    <div id="app"></div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">MEDINA BAYE NIASS</div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="navigateTo('home')">Accueil</a></li>
+                <li><a onclick="navigateTo('services')">Services</a></li>
+                <li><a onclick="navigateTo('vente')">Vente</a></li>
+                <li><a onclick="navigateTo('location')">Location</a></li>
+                <li><a onclick="navigateTo('boutique')">Boutique</a></li>
+                <li><a onclick="navigateTo('avis')">Avis</a></li>
+                <li><a onclick="navigateTo('contact')">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" id="app">
+        <!-- Dynamic content will be loaded here -->
+    </div>
+
+    <div class="whatsapp-float" onclick="openWhatsApp()">
+        <i class="fab fa-whatsapp fa-2x"></i>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent"></div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p style="text-align: center;">&copy; 2024 Medina Baye Niass - Garage Premium</p>
+        </div>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyD4m9zBnm3_v7ONPYBZwDRLZ94sXeELYGI",
@@ -304,580 +597,457 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
-        const auth = getAuth(app);
+        const analytics = getAnalytics(app);
 
-        let currentUser = null;
+        let currentSection = 'home';
+        let allVehicles = [];
+        let allProducts = [];
 
-        // Règles de sécurité Firestore
-        /*
-        rules_version = '2';
-        service cloud.firestore {
-            match /databases/{database}/documents {
-                match /{document=**} {
-                    allow read: if true;
-                    allow write: if request.auth != null;
-                }
+        // Navigation
+        window.navigateTo = (section) => {
+            currentSection = section;
+            renderSection(section);
+            document.querySelector('.nav-links').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.toggleMenu = () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        };
+
+        // Render functions
+        async function renderSection(section) {
+            const appDiv = document.getElementById('app');
+            switch(section) {
+                case 'home':
+                    appDiv.innerHTML = renderHome();
+                    await loadCounter();
+                    break;
+                case 'services':
+                    appDiv.innerHTML = renderServices();
+                    await loadServices();
+                    break;
+                case 'vente':
+                    appDiv.innerHTML = renderVente();
+                    await loadVehicles();
+                    break;
+                case 'location':
+                    appDiv.innerHTML = renderLocation();
+                    await loadLocationVehicles();
+                    break;
+                case 'boutique':
+                    appDiv.innerHTML = renderBoutique();
+                    await loadProducts();
+                    break;
+                case 'avis':
+                    appDiv.innerHTML = renderAvis();
+                    await loadReviews();
+                    break;
+                case 'contact':
+                    appDiv.innerHTML = renderContact();
+                    break;
             }
         }
-        */
 
-        // Render login or dashboard
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            if(user) {
-                renderDashboard();
-            } else {
-                renderLogin();
+        function renderHome() {
+            return `
+                <section class="hero">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <i class="fas fa-gem"></i> Excellence Automobile
+                        </div>
+                        <h1>L'élite automobile<br>à votre service</h1>
+                        <p>Découvrez une expérience unique où la passion de l'automobile rencontre l'excellence du service.</p>
+                        <div class="cta-buttons">
+                            <button class="btn btn-primary" onclick="openDevisModal()">
+                                <i class="fas fa-file-invoice"></i> Devis Gratuit
+                            </button>
+                            <button class="btn btn-outline" onclick="window.open('tel:+221781234567')">
+                                <i class="fas fa-phone"></i> Appel Rapide
+                            </button>
+                        </div>
+                    </div>
+                    <div class="counter-card">
+                        <div class="counter-number" id="clientCounter">0</div>
+                        <p>Clients Satisfaits</p>
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                </section>
+
+                <div class="bento-grid">
+                    <div class="bento-card" onclick="navigateTo('services')">
+                        <div class="bento-icon"><i class="fas fa-tools"></i></div>
+                        <h3>Services Premium</h3>
+                        <p>Diagnostic, entretien et réparation par des experts</p>
+                    </div>
+                    <div class="bento-card" onclick="navigateTo('vente')">
+                        <div class="bento-icon"><i class="fas fa-car"></i></div>
+                        <h3>Vente de Véhicules</h3>
+                        <p>La meilleure sélection de véhicules d'occasion</p>
+                    </div>
+                    <div class="bento-card" onclick="navigateTo('location')">
+                        <div class="bento-icon"><i class="fas fa-key"></i></div>
+                        <h3>Location</h3>
+                        <p>Flexibilité et liberté sur mesure</p>
+                    </div>
+                    <div class="bento-card" onclick="navigateTo('boutique')">
+                        <div class="bento-icon"><i class="fas fa-microchip"></i></div>
+                        <h3>Pièces Détachées</h3>
+                        <p>Qualité originale et garantie</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderServices() {
+            return `
+                <h2 class="section-title">Nos Services Premium</h2>
+                <div class="services-grid" id="servicesGrid">
+                    ${Array(3).fill().map(() => '<div class="skeleton" style="height:300px"></div>').join('')}
+                </div>
+            `;
+        }
+
+        function renderVente() {
+            return `
+                <h2 class="section-title">Véhicules en Vente</h2>
+                <div class="filter-bar">
+                    <button class="filter-btn active" onclick="filterVehicles('all')">Tous</button>
+                    <button class="filter-btn" onclick="filterVehicles('berline')">Berline</button>
+                    <button class="filter-btn" onclick="filterVehicles('suv')">SUV</button>
+                    <button class="filter-btn" onclick="filterVehicles('sport')">Sport</button>
+                </div>
+                <div class="vehicles-grid" id="vehiclesGrid">
+                    ${Array(6).fill().map(() => '<div class="skeleton" style="height:350px"></div>').join('')}
+                </div>
+            `;
+        }
+
+        function renderLocation() {
+            return `
+                <h2 class="section-title">Location de Véhicules</h2>
+                <div class="location-grid" id="locationGrid">
+                    ${Array(3).fill().map(() => '<div class="skeleton" style="height:300px"></div>').join('')}
+                </div>
+            `;
+        }
+
+        function renderBoutique() {
+            return `
+                <h2 class="section-title">Boutique Pièces Détachées</h2>
+                <input type="text" class="search-bar" placeholder="Rechercher une pièce..." onkeyup="searchProducts(this.value)">
+                <div class="products-grid" id="productsGrid">
+                    ${Array(6).fill().map(() => '<div class="skeleton" style="height:300px"></div>').join('')}
+                </div>
+            `;
+        }
+
+        function renderAvis() {
+            return `
+                <h2 class="section-title">Avis Clients</h2>
+                <div style="text-align:center; margin-bottom:2rem;">
+                    <div class="average-rating" id="averageRating">4.8 ★</div>
+                </div>
+                <div class="reviews-grid" id="reviewsGrid">
+                    ${Array(3).fill().map(() => '<div class="skeleton" style="height:200px"></div>').join('')}
+                </div>
+            `;
+        }
+
+        function renderContact() {
+            return `
+                <h2 class="section-title">Contactez-nous</h2>
+                <div class="bento-grid">
+                    <div class="bento-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Adresse</h3>
+                        <p>Dakar, Sénégal</p>
+                    </div>
+                    <div class="bento-card">
+                        <i class="fas fa-phone"></i>
+                        <h3>Téléphone</h3>
+                        <p>+221 78 123 45 67</p>
+                    </div>
+                    <div class="bento-card">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Email</h3>
+                        <p>contact@medinabayeniass.sn</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load data from Firebase
+        async function loadCounter() {
+            const querySnapshot = await getDocs(collection(db, 'clients'));
+            const count = querySnapshot.size;
+            const counterElement = document.getElementById('clientCounter');
+            if(counterElement) animateNumber(counterElement, 0, count, 2000);
+        }
+
+        async function loadServices() {
+            const servicesGrid = document.getElementById('servicesGrid');
+            const querySnapshot = await getDocs(collection(db, 'services'));
+            if(!querySnapshot.empty) {
+                servicesGrid.innerHTML = querySnapshot.docs.map(doc => `
+                    <div class="service-card">
+                        <img src="${doc.data().image || 'https://via.placeholder.com/400x300'}" class="service-image">
+                        <div class="service-info">
+                            <h3>${doc.data().name}</h3>
+                            <p>${doc.data().description}</p>
+                            <p class="vehicle-price">${doc.data().price || 'Sur devis'}</p>
+                            <button class="btn btn-primary" onclick="openDevisModal()">Demander un devis</button>
+                        </div>
+                    </div>
+                `).join('');
             }
+        }
+
+        async function loadVehicles() {
+            const querySnapshot = await getDocs(collection(db, 'vehicules_vente'));
+            allVehicles = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            displayVehicles(allVehicles);
+        }
+
+        window.filterVehicles = (category) => {
+            const filtered = category === 'all' ? allVehicles : allVehicles.filter(v => v.category === category);
+            displayVehicles(filtered);
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        };
+
+        function displayVehicles(vehicles) {
+            const vehiclesGrid = document.getElementById('vehiclesGrid');
+            if(vehiclesGrid) {
+                vehiclesGrid.innerHTML = vehicles.map(vehicle => `
+                    <div class="vehicle-card" onclick="showVehicleDetail('${vehicle.id}')">
+                        <img src="${vehicle.images?.[0] || 'https://via.placeholder.com/400x300'}" class="vehicle-image">
+                        <div class="vehicle-info">
+                            <h3>${vehicle.marque} ${vehicle.modele}</h3>
+                            <p>${vehicle.annee} - ${vehicle.kilometrage} km</p>
+                            <p class="vehicle-price">${vehicle.prix.toLocaleString()} FCFA</p>
+                            <button class="btn btn-outline" onclick="event.stopPropagation(); simulateLoan(${vehicle.prix})">
+                                Simuler mensualité
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function loadLocationVehicles() {
+            const locationGrid = document.getElementById('locationGrid');
+            const querySnapshot = await getDocs(collection(db, 'vehicules_location'));
+            if(locationGrid) {
+                locationGrid.innerHTML = querySnapshot.docs.map(doc => `
+                    <div class="location-card">
+                        <img src="${doc.data().image || 'https://via.placeholder.com/400x300'}" class="location-image">
+                        <div class="location-info">
+                            <h3>${doc.data().marque} ${doc.data().modele}</h3>
+                            <p class="vehicle-price">${doc.data().prix_journalier.toLocaleString()} FCFA/jour</p>
+                            <button class="btn btn-primary" onclick="openLocationModal('${doc.id}')">Réserver</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function loadProducts() {
+            const querySnapshot = await getDocs(collection(db, 'pieces_detachees'));
+            allProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            displayProducts(allProducts);
+        }
+
+        window.searchProducts = (searchTerm) => {
+            const filtered = allProducts.filter(p => 
+                p.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                p.reference.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            displayProducts(filtered);
+        };
+
+        function displayProducts(products) {
+            const productsGrid = document.getElementById('productsGrid');
+            if(productsGrid) {
+                productsGrid.innerHTML = products.map(product => `
+                    <div class="product-card">
+                        <img src="${product.image || 'https://via.placeholder.com/400x300'}" class="product-image">
+                        <div class="product-info">
+                            <h3>${product.nom}</h3>
+                            <p>Réf: ${product.reference}</p>
+                            <p class="vehicle-price">${product.prix.toLocaleString()} FCFA</p>
+                            <span class="stock-badge ${product.stock > 0 ? 'in-stock' : 'out-stock'}">
+                                ${product.stock > 0 ? `Stock: ${product.stock}` : 'Précommander'}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function loadReviews() {
+            const querySnapshot = await getDocs(collection(db, 'avis'));
+            const reviews = querySnapshot.docs.map(doc => doc.data());
+            const avgRating = reviews.reduce((sum, r) => sum + r.note, 0) / reviews.length;
+            
+            const reviewsGrid = document.getElementById('reviewsGrid');
+            const avgElement = document.getElementById('averageRating');
+            
+            if(avgElement) avgElement.innerHTML = `${avgRating.toFixed(1)} ★ (${reviews.length} avis)`;
+            
+            if(reviewsGrid) {
+                reviewsGrid.innerHTML = reviews.map(review => `
+                    <div class="review-card">
+                        <h3>${review.nom}</h3>
+                        <div class="rating">${'★'.repeat(Math.floor(review.note))}${review.note % 1 ? '½' : ''}</div>
+                        <p>${review.commentaire}</p>
+                        <small>${new Date(review.date).toLocaleDateString()}</small>
+                    </div>
+                `).join('');
+            }
+        }
+
+        window.openDevisModal = () => {
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <h2>Demande de Devis</h2>
+                <form id="devisForm">
+                    <input type="text" placeholder="Nom complet" required style="width:100%; padding:0.75rem; margin:0.5rem 0; background:#1A1F2E; border:1px solid #D4AF37; color:white; border-radius:8px;">
+                    <input type="email" placeholder="Email" required style="width:100%; padding:0.75rem; margin:0.5rem 0; background:#1A1F2E; border:1px solid #D4AF37; color:white; border-radius:8px;">
+                    <input type="tel" placeholder="Téléphone" required style="width:100%; padding:0.75rem; margin:0.5rem 0; background:#1A1F2E; border:1px solid #D4AF37; color:white; border-radius:8px;">
+                    <textarea placeholder="Description du besoin" rows="4" required style="width:100%; padding:0.75rem; margin:0.5rem 0; background:#1A1F2E; border:1px solid #D4AF37; color:white; border-radius:8px;"></textarea>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Envoyer la demande</button>
+                </form>
+            `;
+            modal.classList.add('active');
+            
+            document.getElementById('devisForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                await addDoc(collection(db, 'devis'), {
+                    nom: formData.get('nom'),
+                    email: formData.get('email'),
+                    telephone: formData.get('telephone'),
+                    message: formData.get('message'),
+                    date: new Date(),
+                    status: 'pending'
+                });
+                modal.classList.remove('active');
+                alert('Demande envoyée avec succès!');
+            });
+        };
+
+        window.simulateLoan = (price) => {
+            const mensualite = price / 24;
+            alert(`Simulation de crédit:\nPrix: ${price.toLocaleString()} FCFA\nDurée: 24 mois\nMensualité: ${Math.round(mensualite).toLocaleString()} FCFA`);
+        };
+
+        function animateNumber(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            const timer = setInterval(() => {
+                current += increment;
+                if(current >= end) {
+                    clearInterval(timer);
+                    current = end;
+                }
+                element.textContent = Math.floor(current);
+            }, 16);
+        }
+
+        window.openWhatsApp = () => {
+            window.open('https://wa.me/221781234567', '_blank');
+        };
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSection('home');
+            
+            // Animate elements on scroll
+            const elements = document.querySelectorAll('.bento-card, .vehicle-card, .service-card');
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if(window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
         });
 
-        function renderLogin() {
-            document.getElementById('app').innerHTML = `
-                <div class="login-container">
-                    <div class="login-box">
-                        <h2 style="text-align:center; margin-bottom:2rem;">Admin Dashboard</h2>
-                        <form id="loginForm">
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" id="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Mot de passe</label>
-                                <input type="password" id="password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary" style="width:100%">Se connecter</button>
-                        </form>
-                    </div>
-                </div>
+        window.showVehicleDetail = (id) => {
+            const vehicle = allVehicles.find(v => v.id === id);
+            if(vehicle) {
+                const modal = document.getElementById('modal');
+                const modalContent = document.getElementById('modalContent');
+                modalContent.innerHTML = `
+                    <h2>${vehicle.marque} ${vehicle.modele}</h2>
+                    <img src="${vehicle.images?.[0]}" style="width:100%; border-radius:12px; margin:1rem 0;">
+                    <p><strong>Année:</strong> ${vehicle.annee}</p>
+                    <p><strong>Kilométrage:</strong> ${vehicle.kilometrage} km</p>
+                    <p><strong>Prix:</strong> ${vehicle.prix.toLocaleString()} FCFA</p>
+                    <button class="btn btn-primary" onclick="window.open('https://wa.me/221781234567?text=Je%20suis%20intéressé%20par%20${vehicle.marque}%20${vehicle.modele}')">Contacter via WhatsApp</button>
+                `;
+                modal.classList.add('active');
+            }
+        };
+
+        window.openLocationModal = (id) => {
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <h2>Réservation de véhicule</h2>
+                <form id="locationForm">
+                    <input type="text" placeholder="Nom complet" required style="width:100%; padding:0.75rem; margin:0.5rem 0; background:#1A1F2E; border:1px solid #D4AF37; color:white; border-radius:8px;">
+                    <input type="email" placeholder="Email" required style="width:100%; padding:0.75rem; margin:0.5rem 0; background:#1A1F2E; border:1px solid #D4AF37; color:white; border-radius:8px;">
+                    <input type="date" id="startDate" required style="width:100%; padding:0.75rem; margin:0.5rem 0; background:#1A1F2E; border:1px solid #D4AF37; color:white; border-radius:8px;">
+                    <input type="date" id="endDate" required style="width:100%; padding:0.75rem; margin:0.5rem 0; background:#1A1F2E; border:1px solid #D4AF37; color:white; border-radius:8px;">
+                    <input type="file" id="permis" accept="image/*" required style="width:100%; padding:0.75rem; margin:0.5rem 0; background:#1A1F2E; border:1px solid #D4AF37; color:white; border-radius:8px;">
+                    <button type="submit" class="btn btn-primary" style="width:100%">Réserver</button>
+                </form>
             `;
+            modal.classList.add('active');
             
-            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            document.getElementById('locationForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                try {
-                    await signInWithEmailAndPassword(auth, email, password);
-                } catch(error) {
-                    alert('Erreur de connexion: ' + error.message);
-                }
-            });
-        }
-
-        function renderDashboard() {
-            document.getElementById('app').innerHTML = `
-                <div class="admin-container">
-                    <div class="sidebar">
-                        <div class="sidebar-logo">MEDINA BAYE NIASS<br><small style="font-size:0.8rem;">Admin Panel</small></div>
-                        <ul class="sidebar-nav">
-                            <li><a onclick="showTab('dashboard')" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                            <li><a onclick="showTab('services')"><i class="fas fa-tools"></i> Services</a></li>
-                            <li><a onclick="showTab('vehicles')"><i class="fas fa-car"></i> Véhicules</a></li>
-                            <li><a onclick="showTab('location')"><i class="fas fa-key"></i> Location</a></li>
-                            <li><a onclick="showTab('products')"><i class="fas fa-microchip"></i> Pièces</a></li>
-                            <li><a onclick="showTab('devis')"><i class="fas fa-file-invoice"></i> Devis</a></li>
-                            <li><a onclick="showTab('reviews')"><i class="fas fa-star"></i> Avis</a></li>
-                            <li><a onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                        </ul>
-                    </div>
-                    <div class="main-content">
-                        <div id="tab-dashboard" class="tab-content active"></div>
-                        <div id="tab-services" class="tab-content"></div>
-                        <div id="tab-vehicles" class="tab-content"></div>
-                        <div id="tab-location" class="tab-content"></div>
-                        <div id="tab-products" class="tab-content"></div>
-                        <div id="tab-devis" class="tab-content"></div>
-                        <div id="tab-reviews" class="tab-content"></div>
-                    </div>
-                </div>
-            `;
-            
-            loadDashboard();
-            
-            window.showTab = (tab) => {
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                document.getElementById(`tab-${tab}`).classList.add('active');
-                document.querySelectorAll('.sidebar-nav a').forEach(link => link.classList.remove('active'));
-                event.target.classList.add('active');
-                
-                switch(tab) {
-                    case 'dashboard': loadDashboard(); break;
-                    case 'services': loadServicesManagement(); break;
-                    case 'vehicles': loadVehiclesManagement(); break;
-                    case 'location': loadLocationManagement(); break;
-                    case 'products': loadProductsManagement(); break;
-                    case 'devis': loadDevisManagement(); break;
-                    case 'reviews': loadReviewsManagement(); break;
-                }
-            };
-        }
-
-        async function loadDashboard() {
-            const dashboardDiv = document.getElementById('tab-dashboard');
-            
-            // Get stats
-            const devisSnapshot = await getDocs(collection(db, 'devis'));
-            const vehiclesSnapshot = await getDocs(collection(db, 'vehicules_vente'));
-            const productsSnapshot = await getDocs(collection(db, 'pieces_detachees'));
-            const lowStock = productsSnapshot.docs.filter(doc => doc.data().stock < 5).length;
-            
-            dashboardDiv.innerHTML = `
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-title">Devis en attente</div>
-                        <div class="stat-value" id="devisCount">${devisSnapshot.size}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">Véhicules en stock</div>
-                        <div class="stat-value">${vehiclesSnapshot.size}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">Pièces en stock</div>
-                        <div class="stat-value">${productsSnapshot.size}</div>
-                    </div>
-                    <div class="stat-card" style="${lowStock > 0 ? 'border-color:#F59E0B' : ''}">
-                        <div class="stat-title">Stock faible (<5)</div>
-                        <div class="stat-value" style="color:#F59E0B">${lowStock}</div>
-                    </div>
-                </div>
-                
-                <h3 style="margin:2rem 0 1rem;">Derniers Devis</h3>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Client</th><th>Téléphone</th><th>Date</th><th>Status</th><th>Action</th></tr>
-                    </thead>
-                    <tbody id="recentDevis"></tbody>
-                </table>
-            `;
-            
-            // Load recent devis
-            const devisList = [];
-            devisSnapshot.forEach(doc => {
-                devisList.push({ id: doc.id, ...doc.data() });
-            });
-            const recentDevis = devisList.slice(0, 5);
-            
-            const tbody = document.getElementById('recentDevis');
-            tbody.innerHTML = recentDevis.map(devis => `
-                <tr>
-                    <td>${devis.nom || 'N/A'}</td>
-                    <td>${devis.telephone || 'N/A'}</td>
-                    <td>${devis.date ? new Date(devis.date.toDate()).toLocaleDateString() : 'N/A'}</td>
-                    <td><span class="stock-badge in-stock">${devis.status || 'pending'}</span></td>
-                    <td><button class="btn btn-primary" onclick="window.open('https://wa.me/221${devis.telephone}')">Contacter</button></td>
-                </tr>
-            `).join('');
-            
-            // Real-time updates for devis
-            onSnapshot(collection(db, 'devis'), (snapshot) => {
-                const countElement = document.getElementById('devisCount');
-                if(countElement) {
-                    countElement.textContent = snapshot.size;
-                    // Flash effect
-                    countElement.style.animation = 'pulse 0.5s';
-                    setTimeout(() => countElement.style.animation = '', 500);
-                }
-            });
-        }
-
-        async function loadServicesManagement() {
-            const container = document.getElementById('tab-services');
-            container.innerHTML = `
-                <h2 style="margin-bottom:2rem;">Gestion des Services</h2>
-                <div class="admin-form">
-                    <h3>Ajouter un Service</h3>
-                    <form id="addServiceForm">
-                        <div class="form-group">
-                            <label>Nom du service</label>
-                            <input type="text" id="serviceName" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="serviceDescription" rows="3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Prix (optionnel)</label>
-                            <input type="text" id="servicePrice">
-                        </div>
-                        <div class="upload-zone" onclick="document.getElementById('serviceImage').click()">
-                            <i class="fas fa-cloud-upload-alt fa-2x"></i>
-                            <p>Cliquez pour uploader une image</p>
-                            <input type="file" id="serviceImage" style="display:none" accept="image/*">
-                        </div>
-                        <div id="imagePreview"></div>
-                        <button type="submit" class="btn btn-primary">Ajouter le service</button>
-                    </form>
-                </div>
-                
-                <h3 style="margin:2rem 0 1rem;">Services existants</h3>
-                <div id="servicesList"></div>
-            `;
-            
-            // Load existing services
-            const querySnapshot = await getDocs(collection(db, 'services'));
-            const servicesList = document.getElementById('servicesList');
-            servicesList.innerHTML = `
-                <table class="data-table">
-                    <thead><tr><th>Image</th><th>Nom</th><th>Description</th><th>Prix</th><th>Action</th></tr></thead>
-                    <tbody>
-                        ${querySnapshot.docs.map(doc => `
-                            <tr>
-                                <td><img src="${doc.data().image || 'https://via.placeholder.com/50'}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;"></td>
-                                <td>${doc.data().name}</td>
-                                <td>${doc.data().description}</td>
-                                <td>${doc.data().price || 'Sur devis'}</td>
-                                <td><button class="btn btn-danger" onclick="deleteService('${doc.id}')">Supprimer</button></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-            
-            document.getElementById('addServiceForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const file = document.getElementById('serviceImage').files[0];
-                let imageUrl = '';
-                
+                const file = document.getElementById('permis').files[0];
                 if(file) {
-                    const storageRef = ref(storage, `services/${Date.now()}_${file.name}`);
-                    await uploadBytes(storageRef, file);
-                    imageUrl = await getDownloadURL(storageRef);
-                }
-                
-                await addDoc(collection(db, 'services'), {
-                    name: document.getElementById('serviceName').value,
-                    description: document.getElementById('serviceDescription').value,
-                    price: document.getElementById('servicePrice').value,
-                    image: imageUrl,
-                    date: new Date()
-                });
-                
-                alert('Service ajouté avec succès!');
-                loadServicesManagement();
-            });
-            
-            document.getElementById('serviceImage').addEventListener('change', (e) => {
-                const preview = document.getElementById('imagePreview');
-                preview.innerHTML = `<img src="${URL.createObjectURL(e.target.files[0])}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;margin-top:1rem;">`;
-            });
-        }
-
-        async function loadVehiclesManagement() {
-            const container = document.getElementById('tab-vehicles');
-            container.innerHTML = `
-                <h2 style="margin-bottom:2rem;">Gestion des Véhicules</h2>
-                <div class="admin-form">
-                    <h3>Ajouter un Véhicule</h3>
-                    <form id="addVehicleForm">
-                        <div class="form-group"><label>Marque</label><input type="text" id="brand" required></div>
-                        <div class="form-group"><label>Modèle</label><input type="text" id="model" required></div>
-                        <div class="form-group"><label>Année</label><input type="number" id="year" required></div>
-                        <div class="form-group"><label>Kilométrage</label><input type="number" id="km" required></div>
-                        <div class="form-group"><label>Prix (FCFA)</label><input type="number" id="price" required></div>
-                        <div class="form-group"><label>Catégorie</label>
-                            <select id="category"><option value="berline">Berline</option><option value="suv">SUV</option><option value="sport">Sport</option></select>
-                        </div>
-                        <div class="upload-zone" onclick="document.getElementById('vehicleImages').click()">
-                            <i class="fas fa-cloud-upload-alt fa-2x"></i>
-                            <p>Glissez-déposez vos images ici</p>
-                            <input type="file" id="vehicleImages" style="display:none" multiple accept="image/*">
-                        </div>
-                        <div id="imagesPreview" class="image-preview"></div>
-                        <button type="submit" class="btn btn-primary">Ajouter le véhicule</button>
-                    </form>
-                </div>
-                <div id="vehiclesList"></div>
-            `;
-            
-            // Load vehicles
-            const querySnapshot = await getDocs(collection(db, 'vehicules_vente'));
-            const vehiclesList = document.getElementById('vehiclesList');
-            vehiclesList.innerHTML = `
-                <h3 style="margin:2rem 0 1rem;">Véhicules existants</h3>
-                <table class="data-table">
-                    <thead><tr><th>Image</th><th>Modèle</th><th>Année</th><th>Prix</th><th>Action</th></tr></thead>
-                    <tbody>
-                        ${querySnapshot.docs.map(doc => `
-                            <tr>
-                                <td><img src="${doc.data().images?.[0] || 'https://via.placeholder.com/50'}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;"></td>
-                                <td>${doc.data().marque} ${doc.data().modele}</td>
-                                <td>${doc.data().annee}</td>
-                                <td>${doc.data().prix.toLocaleString()} FCFA</td>
-                                <td><button class="btn btn-danger" onclick="deleteVehicle('${doc.id}')">Supprimer</button></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-            
-            const imagesArray = [];
-            document.getElementById('vehicleImages').addEventListener('change', (e) => {
-                const preview = document.getElementById('imagesPreview');
-                preview.innerHTML = '';
-                Array.from(e.target.files).forEach(file => {
-                    imagesArray.push(file);
-                    const img = document.createElement('img');
-                    img.src = URL.createObjectURL(file);
-                    img.className = 'preview-img';
-                    preview.appendChild(img);
-                });
-            });
-            
-            document.getElementById('addVehicleForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const imageUrls = [];
-                for(const file of imagesArray) {
-                    const storageRef = ref(storage, `vehicles/${Date.now()}_${file.name}`);
+                    const storageRef = ref(storage, `permis/${Date.now()}_${file.name}`);
                     await uploadBytes(storageRef, file);
                     const url = await getDownloadURL(storageRef);
-                    imageUrls.push(url);
+                    await addDoc(collection(db, 'reservations_location'), {
+                        vehicleId: id,
+                        nom: e.target[0].value,
+                        email: e.target[1].value,
+                        startDate: document.getElementById('startDate').value,
+                        endDate: document.getElementById('endDate').value,
+                        permisUrl: url,
+                        date: new Date()
+                    });
+                    modal.classList.remove('active');
+                    alert('Réservation envoyée avec succès!');
                 }
-                
-                await addDoc(collection(db, 'vehicules_vente'), {
-                    marque: document.getElementById('brand').value,
-                    modele: document.getElementById('model').value,
-                    annee: parseInt(document.getElementById('year').value),
-                    kilometrage: parseInt(document.getElementById('km').value),
-                    prix: parseInt(document.getElementById('price').value),
-                    category: document.getElementById('category').value,
-                    images: imageUrls,
-                    date: new Date()
-                });
-                
-                alert('Véhicule ajouté avec succès!');
-                loadVehiclesManagement();
             });
-        }
-
-        async function loadProductsManagement() {
-            const container = document.getElementById('tab-products');
-            container.innerHTML = `
-                <h2 style="margin-bottom:2rem;">Gestion des Pièces Détachées</h2>
-                <div class="admin-form">
-                    <h3>Ajouter une Pièce</h3>
-                    <form id="addProductForm">
-                        <div class="form-group"><label>Nom</label><input type="text" id="productName" required></div>
-                        <div class="form-group"><label>Référence</label><input type="text" id="reference" required></div>
-                        <div class="form-group"><label>Prix (FCFA)</label><input type="number" id="productPrice" required></div>
-                        <div class="form-group"><label>Stock</label><input type="number" id="stock" required></div>
-                        <div class="form-group"><label>Simulation Scan Code-Barres</label>
-                            <input type="text" id="barcode" placeholder="Scannez ou entrez le code-barres">
-                        </div>
-                        <div class="upload-zone" onclick="document.getElementById('productImage').click()">
-                            <i class="fas fa-cloud-upload-alt fa-2x"></i>
-                            <p>Uploader l'image</p>
-                            <input type="file" id="productImage" style="display:none" accept="image/*">
-                        </div>
-                        <div id="productImagePreview"></div>
-                        <button type="submit" class="btn btn-primary">Ajouter la pièce</button>
-                    </form>
-                </div>
-                <div id="productsList"></div>
-            `;
-            
-            // Load products
-            const querySnapshot = await getDocs(collection(db, 'pieces_detachees'));
-            const productsList = document.getElementById('productsList');
-            productsList.innerHTML = `
-                <h3 style="margin:2rem 0 1rem;">Inventaire des Pièces</h3>
-                <table class="data-table">
-                    <thead><tr><th>Image</th><th>Nom</th><th>Référence</th><th>Prix</th><th>Stock</th><th>Action</th></tr></thead>
-                    <tbody>
-                        ${querySnapshot.docs.map(doc => `
-                            <tr class="${doc.data().stock < 5 ? 'low-stock' : ''}">
-                                <td><img src="${doc.data().image || 'https://via.placeholder.com/50'}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;"></td>
-                                <td>${doc.data().nom}</td>
-                                <td>${doc.data().reference}</td>
-                                <td>${doc.data().prix.toLocaleString()} FCFA</td>
-                                <td><input type="number" value="${doc.data().stock}" onchange="updateStock('${doc.id}', this.value)" style="width:80px;background:#222;color:white;border:1px solid #D4AF37;border-radius:4px;"></td>
-                                <td><button class="btn btn-danger" onclick="deleteProduct('${doc.id}')">Supprimer</button></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-            
-            document.getElementById('productImage').addEventListener('change', (e) => {
-                const preview = document.getElementById('productImagePreview');
-                preview.innerHTML = `<img src="${URL.createObjectURL(e.target.files[0])}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;margin-top:1rem;">`;
-            });
-            
-            document.getElementById('addProductForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const file = document.getElementById('productImage').files[0];
-                let imageUrl = '';
-                
-                if(file) {
-                    const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
-                    await uploadBytes(storageRef, file);
-                    imageUrl = await getDownloadURL(storageRef);
-                }
-                
-                await addDoc(collection(db, 'pieces_detachees'), {
-                    nom: document.getElementById('productName').value,
-                    reference: document.getElementById('reference').value,
-                    prix: parseInt(document.getElementById('productPrice').value),
-                    stock: parseInt(document.getElementById('stock').value),
-                    image: imageUrl,
-                    date: new Date()
-                });
-                
-                alert('Pièce ajoutée avec succès!');
-                loadProductsManagement();
-            });
-            
-            // Barcode simulation
-            document.getElementById('barcode').addEventListener('change', async (e) => {
-                const barcode = e.target.value;
-                const q = query(collection(db, 'pieces_detachees'), where('reference', '==', barcode));
-                const snapshot = await getDocs(q);
-                if(!snapshot.empty) {
-                    const product = snapshot.docs[0];
-                    const newStock = prompt(`Produit trouvé: ${product.data().nom}\nStock actuel: ${product.data().stock}\nNouveau stock:`, product.data().stock);
-                    if(newStock !== null) {
-                        await updateDoc(doc(db, 'pieces_detachees', product.id), { stock: parseInt(newStock) });
-                        alert('Stock mis à jour!');
-                        loadProductsManagement();
-                    }
-                } else {
-                    alert('Produit non trouvé');
-                }
-                e.target.value = '';
-            });
-        }
-
-        async function loadDevisManagement() {
-            const container = document.getElementById('tab-devis');
-            const querySnapshot = await getDocs(collection(db, 'devis'));
-            container.innerHTML = `
-                <h2 style="margin-bottom:2rem;">Gestion des Devis</h2>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Client</th><th>Email</th><th>Téléphone</th><th>Message</th><th>Date</th><th>Status</th><th>Action</th></tr>
-                    </thead>
-                    <tbody>
-                        ${querySnapshot.docs.map(doc => `
-                            <tr>
-                                <td>${doc.data().nom || 'N/A'}</td>
-                                <td>${doc.data().email || 'N/A'}</td>
-                                <td>${doc.data().telephone || 'N/A'}</td>
-                                <td>${doc.data().message?.substring(0, 50)}...</td>
-                                <td>${doc.data().date ? new Date(doc.data().date.toDate()).toLocaleDateString() : 'N/A'}</td>
-                                <td>
-                                    <select onchange="updateDevisStatus('${doc.id}', this.value)">
-                                        <option value="pending" ${doc.data().status === 'pending' ? 'selected' : ''}>En attente</option>
-                                        <option value="processing" ${doc.data().status === 'processing' ? 'selected' : ''}>En traitement</option>
-                                        <option value="completed" ${doc.data().status === 'completed' ? 'selected' : ''}>Traité</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary" onclick="window.open('https://wa.me/221${doc.data().telephone}')">
-                                        <i class="fab fa-whatsapp"></i> Contacter
-                                    </button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
-
-        async function loadLocationManagement() {
-            const container = document.getElementById('tab-location');
-            const querySnapshot = await getDocs(collection(db, 'reservations_location'));
-            container.innerHTML = `
-                <h2 style="margin-bottom:2rem;">Gestion des Locations</h2>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Client</th><th>Email</th><th>Début</th><th>Fin</th><th>Permis</th><th>Date réservation</th><th>Action</th></tr>
-                    </thead>
-                    <tbody>
-                        ${querySnapshot.docs.map(doc => `
-                            <tr>
-                                <td>${doc.data().nom}</td>
-                                <td>${doc.data().email}</td>
-                                <td>${doc.data().startDate}</td>
-                                <td>${doc.data().endDate}</td>
-                                <td><a href="${doc.data().permisUrl}" target="_blank">Voir permis</a></td>
-                                <td>${new Date(doc.data().date.toDate()).toLocaleDateString()}</td>
-                                <td><button class="btn btn-danger" onclick="deleteReservation('${doc.id}')">Supprimer</button></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
-
-        async function loadReviewsManagement() {
-            const container = document.getElementById('tab-reviews');
-            const querySnapshot = await getDocs(collection(db, 'avis'));
-            container.innerHTML = `
-                <h2 style="margin-bottom:2rem;">Gestion des Avis</h2>
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Client</th><th>Note</th><th>Commentaire</th><th>Date</th><th>Action</th></tr>
-                    </thead>
-                    <tbody>
-                        ${querySnapshot.docs.map(doc => `
-                            <tr>
-                                <td>${doc.data().nom}</td>
-                                <td>${'★'.repeat(doc.data().note)}</td>
-                                <td>${doc.data().commentaire}</td>
-                                <td>${new Date(doc.data().date.toDate()).toLocaleDateString()}</td>
-                                <td><button class="btn btn-danger" onclick="deleteReview('${doc.id}')">Supprimer</button></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
-
-        // Global functions for admin actions
-        window.updateStock = async (id, value) => {
-            await updateDoc(doc(db, 'pieces_detachees', id), { stock: parseInt(value) });
-        };
-        
-        window.updateDevisStatus = async (id, status) => {
-            await updateDoc(doc(db, 'devis', id), { status: status });
-        };
-        
-        window.deleteService = async (id) => {
-            if(confirm('Supprimer ce service ?')) {
-                await deleteDoc(doc(db, 'services', id));
-                loadServicesManagement();
-            }
-        };
-        
-        window.deleteVehicle = async (id) => {
-            if(confirm('Supprimer ce véhicule ?')) {
-                await deleteDoc(doc(db, 'vehicules_vente', id));
-                loadVehiclesManagement();
-            }
-        };
-        
-        window.deleteProduct = async (id) => {
-            if(confirm('Supprimer cette pièce ?')) {
-                await deleteDoc(doc(db, 'pieces_detachees', id));
-                loadProductsManagement();
-            }
-        };
-        
-        window.deleteReservation = async (id) => {
-            if(confirm('Annuler cette réservation ?')) {
-                await deleteDoc(doc(db, 'reservations_location', id));
-                loadLocationManagement();
-            }
-        };
-        
-        window.deleteReview = async (id) => {
-            if(confirm('Supprimer cet avis ?')) {
-                await deleteDoc(doc(db, 'avis', id));
-                loadReviewsManagement();
-            }
-        };
-        
-        window.logout = async () => {
-            await signOut(auth);
         };
     </script>
 </body>
-</html>  
+</html>
