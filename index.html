@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin Dashboard - Medina Baye Niass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #121214;
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+
+        /* Admin Layout */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1A1A1E;
+            border-right: 1px solid #2A2A2E;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+        }
+
+        .sidebar-logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: #A1A1AA;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: #2A2A2E;
+            color: #D4AF37;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #1A1A1E;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #2A2A2E;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #D4AF37;
+        }
+
+        .stat-title {
+            color: #A1A1AA;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #D4AF37;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            background: #1A1A1E;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #2A2A2E;
+        }
+
+        .data-table th, .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #2A2A2E;
+        }
+
+        .data-table th {
+            background: #222226;
+            color: #D4AF37;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: #222226;
+        }
+
+        /* Forms */
+        .admin-form {
+            background: #1A1A1E;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid #2A2A2E;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #A1A1AA;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: #222226;
+            border: 1px solid #2A2A2E;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed #2A2A2E;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-zone:hover {
+            border-color: #D4AF37;
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .preview-img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        /* Login Screen */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0B0F19 0%, #121214 100%);
+        }
+
+        .login-box {
+            background: #1A1A1E;
+            border-radius: 32px;
+            padding: 3rem;
+            width: 400px;
+            border: 1px solid #D4AF37;
+        }
+
+        /* Low Stock Alert */
+        .low-stock {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid #F59E0B;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #D4AF37;
+            color: #121214;
+        }
+
+        .btn-primary:hover {
+            background: #FFD700;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD4m9zBnm3_v7ONPYBZwDRLZ94sXeELYGI",
+            authDomain: "site-djibril.firebaseapp.com",
+            projectId: "site-djibril",
+            storageBucket: "site-djibril.firebasestorage.app",
+            messagingSenderId: "577455734",
+            appId: "1:577455734:web:50567f26b225878052c157",
+            measurementId: "G-J9DXPKN448"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+
+        // Règles de sécurité Firestore
+        /*
+        rules_version = '2';
+        service cloud.firestore {
+            match /databases/{database}/documents {
+                match /{document=**} {
+                    allow read: if true;
+                    allow write: if request.auth != null;
+                }
+            }
+        }
+        */
+
+        // Render login or dashboard
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if(user) {
+                renderDashboard();
+            } else {
+                renderLogin();
+            }
+        });
+
+        function renderLogin() {
+            document.getElementById('app').innerHTML = `
+                <div class="login-container">
+                    <div class="login-box">
+                        <h2 style="text-align:center; margin-bottom:2rem;">Admin Dashboard</h2>
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mot de passe</label>
+                                <input type="password" id="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:100%">Se connecter</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } catch(error) {
+                    alert('Erreur de connexion: ' + error.message);
+                }
+            });
+        }
+
+        function renderDashboard() {
+            document.getElementById('app').innerHTML = `
+                <div class="admin-container">
+                    <div class="sidebar">
+                        <div class="sidebar-logo">MEDINA BAYE NIASS<br><small style="font-size:0.8rem;">Admin Panel</small></div>
+                        <ul class="sidebar-nav">
+                            <li><a onclick="showTab('dashboard')" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                            <li><a onclick="showTab('services')"><i class="fas fa-tools"></i> Services</a></li>
+                            <li><a onclick="showTab('vehicles')"><i class="fas fa-car"></i> Véhicules</a></li>
+                            <li><a onclick="showTab('location')"><i class="fas fa-key"></i> Location</a></li>
+                            <li><a onclick="showTab('products')"><i class="fas fa-microchip"></i> Pièces</a></li>
+                            <li><a onclick="showTab('devis')"><i class="fas fa-file-invoice"></i> Devis</a></li>
+                            <li><a onclick="showTab('reviews')"><i class="fas fa-star"></i> Avis</a></li>
+                            <li><a onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                        </ul>
+                    </div>
+                    <div class="main-content">
+                        <div id="tab-dashboard" class="tab-content active"></div>
+                        <div id="tab-services" class="tab-content"></div>
+                        <div id="tab-vehicles" class="tab-content"></div>
+                        <div id="tab-location" class="tab-content"></div>
+                        <div id="tab-products" class="tab-content"></div>
+                        <div id="tab-devis" class="tab-content"></div>
+                        <div id="tab-reviews" class="tab-content"></div>
+                    </div>
+                </div>
+            `;
+            
+            loadDashboard();
+            
+            window.showTab = (tab) => {
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(`tab-${tab}`).classList.add('active');
+                document.querySelectorAll('.sidebar-nav a').forEach(link => link.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                switch(tab) {
+                    case 'dashboard': loadDashboard(); break;
+                    case 'services': loadServicesManagement(); break;
+                    case 'vehicles': loadVehiclesManagement(); break;
+                    case 'location': loadLocationManagement(); break;
+                    case 'products': loadProductsManagement(); break;
+                    case 'devis': loadDevisManagement(); break;
+                    case 'reviews': loadReviewsManagement(); break;
+                }
+            };
+        }
+
+        async function loadDashboard() {
+            const dashboardDiv = document.getElementById('tab-dashboard');
+            
+            // Get stats
+            const devisSnapshot = await getDocs(collection(db, 'devis'));
+            const vehiclesSnapshot = await getDocs(collection(db, 'vehicules_vente'));
+            const productsSnapshot = await getDocs(collection(db, 'pieces_detachees'));
+            const lowStock = productsSnapshot.docs.filter(doc => doc.data().stock < 5).length;
+            
+            dashboardDiv.innerHTML = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Devis en attente</div>
+                        <div class="stat-value" id="devisCount">${devisSnapshot.size}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Véhicules en stock</div>
+                        <div class="stat-value">${vehiclesSnapshot.size}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Pièces en stock</div>
+                        <div class="stat-value">${productsSnapshot.size}</div>
+                    </div>
+                    <div class="stat-card" style="${lowStock > 0 ? 'border-color:#F59E0B' : ''}">
+                        <div class="stat-title">Stock faible (<5)</div>
+                        <div class="stat-value" style="color:#F59E0B">${lowStock}</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin:2rem 0 1rem;">Derniers Devis</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Client</th><th>Téléphone</th><th>Date</th><th>Status</th><th>Action</th></tr>
+                    </thead>
+                    <tbody id="recentDevis"></tbody>
+                </table>
+            `;
+            
+            // Load recent devis
+            const devisList = [];
+            devisSnapshot.forEach(doc => {
+                devisList.push({ id: doc.id, ...doc.data() });
+            });
+            const recentDevis = devisList.slice(0, 5);
+            
+            const tbody = document.getElementById('recentDevis');
+            tbody.innerHTML = recentDevis.map(devis => `
+                <tr>
+                    <td>${devis.nom || 'N/A'}</td>
+                    <td>${devis.telephone || 'N/A'}</td>
+                    <td>${devis.date ? new Date(devis.date.toDate()).toLocaleDateString() : 'N/A'}</td>
+                    <td><span class="stock-badge in-stock">${devis.status || 'pending'}</span></td>
+                    <td><button class="btn btn-primary" onclick="window.open('https://wa.me/221${devis.telephone}')">Contacter</button></td>
+                </tr>
+            `).join('');
+            
+            // Real-time updates for devis
+            onSnapshot(collection(db, 'devis'), (snapshot) => {
+                const countElement = document.getElementById('devisCount');
+                if(countElement) {
+                    countElement.textContent = snapshot.size;
+                    // Flash effect
+                    countElement.style.animation = 'pulse 0.5s';
+                    setTimeout(() => countElement.style.animation = '', 500);
+                }
+            });
+        }
+
+        async function loadServicesManagement() {
+            const container = document.getElementById('tab-services');
+            container.innerHTML = `
+                <h2 style="margin-bottom:2rem;">Gestion des Services</h2>
+                <div class="admin-form">
+                    <h3>Ajouter un Service</h3>
+                    <form id="addServiceForm">
+                        <div class="form-group">
+                            <label>Nom du service</label>
+                            <input type="text" id="serviceName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="serviceDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Prix (optionnel)</label>
+                            <input type="text" id="servicePrice">
+                        </div>
+                        <div class="upload-zone" onclick="document.getElementById('serviceImage').click()">
+                            <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                            <p>Cliquez pour uploader une image</p>
+                            <input type="file" id="serviceImage" style="display:none" accept="image/*">
+                        </div>
+                        <div id="imagePreview"></div>
+                        <button type="submit" class="btn btn-primary">Ajouter le service</button>
+                    </form>
+                </div>
+                
+                <h3 style="margin:2rem 0 1rem;">Services existants</h3>
+                <div id="servicesList"></div>
+            `;
+            
+            // Load existing services
+            const querySnapshot = await getDocs(collection(db, 'services'));
+            const servicesList = document.getElementById('servicesList');
+            servicesList.innerHTML = `
+                <table class="data-table">
+                    <thead><tr><th>Image</th><th>Nom</th><th>Description</th><th>Prix</th><th>Action</th></tr></thead>
+                    <tbody>
+                        ${querySnapshot.docs.map(doc => `
+                            <tr>
+                                <td><img src="${doc.data().image || 'https://via.placeholder.com/50'}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;"></td>
+                                <td>${doc.data().name}</td>
+                                <td>${doc.data().description}</td>
+                                <td>${doc.data().price || 'Sur devis'}</td>
+                                <td><button class="btn btn-danger" onclick="deleteService('${doc.id}')">Supprimer</button></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('addServiceForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const file = document.getElementById('serviceImage').files[0];
+                let imageUrl = '';
+                
+                if(file) {
+                    const storageRef = ref(storage, `services/${Date.now()}_${file.name}`);
+                    await uploadBytes(storageRef, file);
+                    imageUrl = await getDownloadURL(storageRef);
+                }
+                
+                await addDoc(collection(db, 'services'), {
+                    name: document.getElementById('serviceName').value,
+                    description: document.getElementById('serviceDescription').value,
+                    price: document.getElementById('servicePrice').value,
+                    image: imageUrl,
+                    date: new Date()
+                });
+                
+                alert('Service ajouté avec succès!');
+                loadServicesManagement();
+            });
+            
+            document.getElementById('serviceImage').addEventListener('change', (e) => {
+                const preview = document.getElementById('imagePreview');
+                preview.innerHTML = `<img src="${URL.createObjectURL(e.target.files[0])}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;margin-top:1rem;">`;
+            });
+        }
+
+        async function loadVehiclesManagement() {
+            const container = document.getElementById('tab-vehicles');
+            container.innerHTML = `
+                <h2 style="margin-bottom:2rem;">Gestion des Véhicules</h2>
+                <div class="admin-form">
+                    <h3>Ajouter un Véhicule</h3>
+                    <form id="addVehicleForm">
+                        <div class="form-group"><label>Marque</label><input type="text" id="brand" required></div>
+                        <div class="form-group"><label>Modèle</label><input type="text" id="model" required></div>
+                        <div class="form-group"><label>Année</label><input type="number" id="year" required></div>
+                        <div class="form-group"><label>Kilométrage</label><input type="number" id="km" required></div>
+                        <div class="form-group"><label>Prix (FCFA)</label><input type="number" id="price" required></div>
+                        <div class="form-group"><label>Catégorie</label>
+                            <select id="category"><option value="berline">Berline</option><option value="suv">SUV</option><option value="sport">Sport</option></select>
+                        </div>
+                        <div class="upload-zone" onclick="document.getElementById('vehicleImages').click()">
+                            <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                            <p>Glissez-déposez vos images ici</p>
+                            <input type="file" id="vehicleImages" style="display:none" multiple accept="image/*">
+                        </div>
+                        <div id="imagesPreview" class="image-preview"></div>
+                        <button type="submit" class="btn btn-primary">Ajouter le véhicule</button>
+                    </form>
+                </div>
+                <div id="vehiclesList"></div>
+            `;
+            
+            // Load vehicles
+            const querySnapshot = await getDocs(collection(db, 'vehicules_vente'));
+            const vehiclesList = document.getElementById('vehiclesList');
+            vehiclesList.innerHTML = `
+                <h3 style="margin:2rem 0 1rem;">Véhicules existants</h3>
+                <table class="data-table">
+                    <thead><tr><th>Image</th><th>Modèle</th><th>Année</th><th>Prix</th><th>Action</th></tr></thead>
+                    <tbody>
+                        ${querySnapshot.docs.map(doc => `
+                            <tr>
+                                <td><img src="${doc.data().images?.[0] || 'https://via.placeholder.com/50'}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;"></td>
+                                <td>${doc.data().marque} ${doc.data().modele}</td>
+                                <td>${doc.data().annee}</td>
+                                <td>${doc.data().prix.toLocaleString()} FCFA</td>
+                                <td><button class="btn btn-danger" onclick="deleteVehicle('${doc.id}')">Supprimer</button></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            const imagesArray = [];
+            document.getElementById('vehicleImages').addEventListener('change', (e) => {
+                const preview = document.getElementById('imagesPreview');
+                preview.innerHTML = '';
+                Array.from(e.target.files).forEach(file => {
+                    imagesArray.push(file);
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.className = 'preview-img';
+                    preview.appendChild(img);
+                });
+            });
+            
+            document.getElementById('addVehicleForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const imageUrls = [];
+                for(const file of imagesArray) {
+                    const storageRef = ref(storage, `vehicles/${Date.now()}_${file.name}`);
+                    await uploadBytes(storageRef, file);
+                    const url = await getDownloadURL(storageRef);
+                    imageUrls.push(url);
+                }
+                
+                await addDoc(collection(db, 'vehicules_vente'), {
+                    marque: document.getElementById('brand').value,
+                    modele: document.getElementById('model').value,
+                    annee: parseInt(document.getElementById('year').value),
+                    kilometrage: parseInt(document.getElementById('km').value),
+                    prix: parseInt(document.getElementById('price').value),
+                    category: document.getElementById('category').value,
+                    images: imageUrls,
+                    date: new Date()
+                });
+                
+                alert('Véhicule ajouté avec succès!');
+                loadVehiclesManagement();
+            });
+        }
+
+        async function loadProductsManagement() {
+            const container = document.getElementById('tab-products');
+            container.innerHTML = `
+                <h2 style="margin-bottom:2rem;">Gestion des Pièces Détachées</h2>
+                <div class="admin-form">
+                    <h3>Ajouter une Pièce</h3>
+                    <form id="addProductForm">
+                        <div class="form-group"><label>Nom</label><input type="text" id="productName" required></div>
+                        <div class="form-group"><label>Référence</label><input type="text" id="reference" required></div>
+                        <div class="form-group"><label>Prix (FCFA)</label><input type="number" id="productPrice" required></div>
+                        <div class="form-group"><label>Stock</label><input type="number" id="stock" required></div>
+                        <div class="form-group"><label>Simulation Scan Code-Barres</label>
+                            <input type="text" id="barcode" placeholder="Scannez ou entrez le code-barres">
+                        </div>
+                        <div class="upload-zone" onclick="document.getElementById('productImage').click()">
+                            <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                            <p>Uploader l'image</p>
+                            <input type="file" id="productImage" style="display:none" accept="image/*">
+                        </div>
+                        <div id="productImagePreview"></div>
+                        <button type="submit" class="btn btn-primary">Ajouter la pièce</button>
+                    </form>
+                </div>
+                <div id="productsList"></div>
+            `;
+            
+            // Load products
+            const querySnapshot = await getDocs(collection(db, 'pieces_detachees'));
+            const productsList = document.getElementById('productsList');
+            productsList.innerHTML = `
+                <h3 style="margin:2rem 0 1rem;">Inventaire des Pièces</h3>
+                <table class="data-table">
+                    <thead><tr><th>Image</th><th>Nom</th><th>Référence</th><th>Prix</th><th>Stock</th><th>Action</th></tr></thead>
+                    <tbody>
+                        ${querySnapshot.docs.map(doc => `
+                            <tr class="${doc.data().stock < 5 ? 'low-stock' : ''}">
+                                <td><img src="${doc.data().image || 'https://via.placeholder.com/50'}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;"></td>
+                                <td>${doc.data().nom}</td>
+                                <td>${doc.data().reference}</td>
+                                <td>${doc.data().prix.toLocaleString()} FCFA</td>
+                                <td><input type="number" value="${doc.data().stock}" onchange="updateStock('${doc.id}', this.value)" style="width:80px;background:#222;color:white;border:1px solid #D4AF37;border-radius:4px;"></td>
+                                <td><button class="btn btn-danger" onclick="deleteProduct('${doc.id}')">Supprimer</button></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('productImage').addEventListener('change', (e) => {
+                const preview = document.getElementById('productImagePreview');
+                preview.innerHTML = `<img src="${URL.createObjectURL(e.target.files[0])}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;margin-top:1rem;">`;
+            });
+            
+            document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const file = document.getElementById('productImage').files[0];
+                let imageUrl = '';
+                
+                if(file) {
+                    const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
+                    await uploadBytes(storageRef, file);
+                    imageUrl = await getDownloadURL(storageRef);
+                }
+                
+                await addDoc(collection(db, 'pieces_detachees'), {
+                    nom: document.getElementById('productName').value,
+                    reference: document.getElementById('reference').value,
+                    prix: parseInt(document.getElementById('productPrice').value),
+                    stock: parseInt(document.getElementById('stock').value),
+                    image: imageUrl,
+                    date: new Date()
+                });
+                
+                alert('Pièce ajoutée avec succès!');
+                loadProductsManagement();
+            });
+            
+            // Barcode simulation
+            document.getElementById('barcode').addEventListener('change', async (e) => {
+                const barcode = e.target.value;
+                const q = query(collection(db, 'pieces_detachees'), where('reference', '==', barcode));
+                const snapshot = await getDocs(q);
+                if(!snapshot.empty) {
+                    const product = snapshot.docs[0];
+                    const newStock = prompt(`Produit trouvé: ${product.data().nom}\nStock actuel: ${product.data().stock}\nNouveau stock:`, product.data().stock);
+                    if(newStock !== null) {
+                        await updateDoc(doc(db, 'pieces_detachees', product.id), { stock: parseInt(newStock) });
+                        alert('Stock mis à jour!');
+                        loadProductsManagement();
+                    }
+                } else {
+                    alert('Produit non trouvé');
+                }
+                e.target.value = '';
+            });
+        }
+
+        async function loadDevisManagement() {
+            const container = document.getElementById('tab-devis');
+            const querySnapshot = await getDocs(collection(db, 'devis'));
+            container.innerHTML = `
+                <h2 style="margin-bottom:2rem;">Gestion des Devis</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Client</th><th>Email</th><th>Téléphone</th><th>Message</th><th>Date</th><th>Status</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        ${querySnapshot.docs.map(doc => `
+                            <tr>
+                                <td>${doc.data().nom || 'N/A'}</td>
+                                <td>${doc.data().email || 'N/A'}</td>
+                                <td>${doc.data().telephone || 'N/A'}</td>
+                                <td>${doc.data().message?.substring(0, 50)}...</td>
+                                <td>${doc.data().date ? new Date(doc.data().date.toDate()).toLocaleDateString() : 'N/A'}</td>
+                                <td>
+                                    <select onchange="updateDevisStatus('${doc.id}', this.value)">
+                                        <option value="pending" ${doc.data().status === 'pending' ? 'selected' : ''}>En attente</option>
+                                        <option value="processing" ${doc.data().status === 'processing' ? 'selected' : ''}>En traitement</option>
+                                        <option value="completed" ${doc.data().status === 'completed' ? 'selected' : ''}>Traité</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="window.open('https://wa.me/221${doc.data().telephone}')">
+                                        <i class="fab fa-whatsapp"></i> Contacter
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        async function loadLocationManagement() {
+            const container = document.getElementById('tab-location');
+            const querySnapshot = await getDocs(collection(db, 'reservations_location'));
+            container.innerHTML = `
+                <h2 style="margin-bottom:2rem;">Gestion des Locations</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Client</th><th>Email</th><th>Début</th><th>Fin</th><th>Permis</th><th>Date réservation</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        ${querySnapshot.docs.map(doc => `
+                            <tr>
+                                <td>${doc.data().nom}</td>
+                                <td>${doc.data().email}</td>
+                                <td>${doc.data().startDate}</td>
+                                <td>${doc.data().endDate}</td>
+                                <td><a href="${doc.data().permisUrl}" target="_blank">Voir permis</a></td>
+                                <td>${new Date(doc.data().date.toDate()).toLocaleDateString()}</td>
+                                <td><button class="btn btn-danger" onclick="deleteReservation('${doc.id}')">Supprimer</button></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        async function loadReviewsManagement() {
+            const container = document.getElementById('tab-reviews');
+            const querySnapshot = await getDocs(collection(db, 'avis'));
+            container.innerHTML = `
+                <h2 style="margin-bottom:2rem;">Gestion des Avis</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Client</th><th>Note</th><th>Commentaire</th><th>Date</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        ${querySnapshot.docs.map(doc => `
+                            <tr>
+                                <td>${doc.data().nom}</td>
+                                <td>${'★'.repeat(doc.data().note)}</td>
+                                <td>${doc.data().commentaire}</td>
+                                <td>${new Date(doc.data().date.toDate()).toLocaleDateString()}</td>
+                                <td><button class="btn btn-danger" onclick="deleteReview('${doc.id}')">Supprimer</button></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Global functions for admin actions
+        window.updateStock = async (id, value) => {
+            await updateDoc(doc(db, 'pieces_detachees', id), { stock: parseInt(value) });
+        };
+        
+        window.updateDevisStatus = async (id, status) => {
+            await updateDoc(doc(db, 'devis', id), { status: status });
+        };
+        
+        window.deleteService = async (id) => {
+            if(confirm('Supprimer ce service ?')) {
+                await deleteDoc(doc(db, 'services', id));
+                loadServicesManagement();
+            }
+        };
+        
+        window.deleteVehicle = async (id) => {
+            if(confirm('Supprimer ce véhicule ?')) {
+                await deleteDoc(doc(db, 'vehicules_vente', id));
+                loadVehiclesManagement();
+            }
+        };
+        
+        window.deleteProduct = async (id) => {
+            if(confirm('Supprimer cette pièce ?')) {
+                await deleteDoc(doc(db, 'pieces_detachees', id));
+                loadProductsManagement();
+            }
+        };
+        
+        window.deleteReservation = async (id) => {
+            if(confirm('Annuler cette réservation ?')) {
+                await deleteDoc(doc(db, 'reservations_location', id));
+                loadLocationManagement();
+            }
+        };
+        
+        window.deleteReview = async (id) => {
+            if(confirm('Supprimer cet avis ?')) {
+                await deleteDoc(doc(db, 'avis', id));
+                loadReviewsManagement();
+            }
+        };
+        
+        window.logout = async () => {
+            await signOut(auth);
+        };
+    </script>
+</body>
+</html>  
