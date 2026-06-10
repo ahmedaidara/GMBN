@@ -10,7 +10,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap');
         
         :root {
-            --primary-color: #073332;
+               --primary-color: #1e3a8a;  /* Bleu foncé */
             --secondary-color: #1f4a49;
             --accent-color: #9b9c28;
             --light-accent: #d8d9c2;
@@ -62,12 +62,12 @@
             transition: all 0.3s ease;
         }
         
-        .hero-section {
-            background: linear-gradient(rgba(7, 51, 50, 0.8), rgba(7, 51, 50, 0.8)), url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2070&auto=format');
-            background-size: cover;
-            background-position: center;
-            min-height: 70vh;
-        }
+       .hero-section {
+    background: url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2070&auto=format');
+    background-size: cover;
+    background-position: center;
+    min-height: 70vh;
+}
         
         .page-section {
             display: none;
@@ -207,11 +207,18 @@
             .hero-section { min-height: 50vh; }
             .service-image-card { height: 150px; }
         }
+      
+      .gradient-text {
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6, #60a5fa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="bg-primary shadow-md sticky top-0 z-50">
+    <header class="bg-blue-700 shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <div class="w-12 h-12 rounded-full overflow-hidden bg-white flex items-center justify-center">
@@ -254,8 +261,9 @@
     <!-- Hero Section (visible on home) -->
     <section id="hero-section" class="hero-section flex items-center justify-center text-white">
         <div class="container mx-auto px-4 text-center">
-            <h1 class="text-5xl md:text-7xl font-bold mb-4">GMBN</h1>
-            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Parce que votre véhicule mérite le meilleur, nous mettons notre savoir-faire à votre service.</p>
+           <h1 class="text-5xl md:text-7xl font-bold mb-4 gradient-text">GMBN</h1>
+<p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Parce que votre véhicule mérite le meilleur, nous mettons notre savoir-faire à votre service.</p>
+
             <div class="flex flex-wrap justify-center gap-4">
                 <button onclick="showPage('services')" class="bg-accent hover:bg-green-600 text-dark-text px-8 py-3 rounded-full font-medium">Nos Services</button>
                 <button onclick="openWhatsApp()" class="bg-white hover:bg-gray-100 text-primary px-8 py-3 rounded-full font-medium">Contact WhatsApp</button>
@@ -271,7 +279,7 @@
             <section class="py-8">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">À propos de nous</h2>
-                    <div class="w-20 h-1 bg-accent mx-auto"></div>
+                    <div class="w-20 h-1 bg-red-600 mx-auto"></div>
                 </div>
                 <div class="flex flex-col md:flex-row items-center gap-8">
                     <div class="md:w-1/2">
@@ -280,11 +288,11 @@
                     <div class="md:w-1/2">
                         <p class="text-gray-700 mb-4 leading-relaxed">Garage Medina Baye est une entreprise spécialisée dans le domaine de l'automobile. Cette structure familiale dynamique qui fêtera ses 30 ans en 2027, jouit d'une excellente réputation dans tout le territoire national. Trois générations et une équipe bien organisée sont à votre service et son fondateur, El hadji Ibrahima Niasse dit Baye peut témoigner d'une expérience de plus de 40 ans dans le domaine.</p>
                         <p class="text-gray-700 mb-4 leading-relaxed">Active dans le domaine de l'automobile, vous pouvez être sûr d'un service performant, rapide et efficace. Son équipement, ultra sophistiqué, sans cesse renouvelé, à la pointe de la dernière technologie lui a permis de réaliser des missions toujours plus performantes dans des délais toujours plus stricts. Toutes ces expériences l'ont amenée à aborder avec succès et compétences les entreprises et à décrocher des marchés au niveau des plus grandes structures du pays. Profitez d'un équipement à la fine pointe de la technologie.</p>
-                        <div class="flex flex-wrap gap-3 mt-4">
-                            <div class="bg-green-50 px-4 py-2 rounded-full flex items-center"><i class="fas fa-cogs text-accent mr-2"></i><span class="text-accent font-medium">Travail rigoureux et précis</span></div>
-                            <div class="bg-green-50 px-4 py-2 rounded-full flex items-center"><i class="fas fa-star text-accent mr-2"></i><span class="text-accent font-medium">Service client d'excellence</span></div>
-                            <div class="bg-green-50 px-4 py-2 rounded-full flex items-center"><i class="fas fa-users text-accent mr-2"></i><span class="text-accent font-medium">Équipe motivé</span></div>
-                        </div>
+                       <div class="flex flex-wrap gap-3 mt-4">
+    <div class="bg-blue-50 px-4 py-2 rounded-full flex items-center"><i class="fas fa-cogs text-blue-600 mr-2"></i><span class="text-blue-600 font-medium">Travail rigoureux et précis</span></div>
+    <div class="bg-blue-50 px-4 py-2 rounded-full flex items-center"><i class="fas fa-star text-blue-600 mr-2"></i><span class="text-blue-600 font-medium">Service client d'excellence</span></div>
+    <div class="bg-blue-50 px-4 py-2 rounded-full flex items-center"><i class="fas fa-users text-blue-600 mr-2"></i><span class="text-blue-600 font-medium">Équipe motivé</span></div>
+</div>
                     </div>
                 </div>
             </section>
@@ -293,7 +301,7 @@
             <section class="py-8">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Nos Services</h2>
-                    <div class="w-20 h-1 bg-accent mx-auto"></div>
+                    <div class="w-20 h-1 bg-red-600 mx-auto"></div>
                     <p class="mt-4 text-gray-600">Des prestations complètes pour l'entretien et la réparation de votre véhicule.</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -336,10 +344,10 @@
             <section class="py-8 bg-white">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4 flex items-center justify-center gap-2"><i class="fas fa-car"></i> Nos activités supplémentaires</h2>
-                    <div class="w-20 h-1 bg-accent mx-auto"></div>
+                    <div class="w-20 h-1 bg-red-600 mx-auto"></div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="card-style rounded-lg overflow-hidden shadow-md card-hover">
+                    <div class="rounded-lg overflow-hidden shadow-md card-hover" style="background-color: #1e3a8a; border-left: 4px solid #9b9c28; color: white;">
                         <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format" alt="Location de voiture" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2">Location de voiture</h3>
@@ -347,7 +355,7 @@
                             <div class="flex items-center text-accent"><i class="fas fa-car mr-2"></i><span>Disponible toute l'année</span></div>
                         </div>
                     </div>
-                    <div class="card-style rounded-lg overflow-hidden shadow-md card-hover">
+                   <div class="rounded-lg overflow-hidden shadow-md card-hover" style="background-color: #1e3a8a; border-left: 4px solid #9b9c28; color: white;">
                         <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=2070&auto=format" alt="Vente de voiture" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2">Vente de véhicules</h3>
@@ -362,7 +370,7 @@
             <section class="py-8 bg-gray-50">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Galerie photo</h2>
-                    <div class="w-20 h-1 bg-accent mx-auto"></div>
+                    <div class="w-20 h-1 bg-red-600 mx-auto"></div>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <div class="overflow-hidden rounded-lg shadow-md"><img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1983&auto=format" class="w-full h-40 object-cover hover:scale-105 transition"></div>
@@ -469,7 +477,7 @@
     <div class="whatsapp-float" onclick="openWhatsApp()"><i class="fab fa-whatsapp fa-2x text-white"></i></div>
 
     <!-- Footer -->
-    <footer class="bg-primary text-white py-12">
+    <footer class="bg-blue-700 text-white py-12">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
